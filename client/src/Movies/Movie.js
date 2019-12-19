@@ -30,7 +30,20 @@ export default class Movie extends React.Component {
     const addToSavedList = this.props.addToSavedList;
     addToSavedList(this.state.movie);
   };
-
+  updateMovie = e => {
+    e.preventDefault();
+    this.props.history.push(`/update-movie/${this.state.movie.id}`);
+  };
+  deleteItem = e => {
+    e.preventDefault();
+    axios
+      .delete(`http://localhost:5000/api/movies/${this.state.movie.id}`)
+      .then(res => {
+        this.props.setMovie(res.data);
+        this.props.history.push("/movies");
+      })
+      .catch(err => console.log(err));
+  };
   render() {
     if (!this.state.movie) {
       return <div>Loading movie information...</div>;
@@ -41,6 +54,12 @@ export default class Movie extends React.Component {
         <MovieCard movie={this.state.movie} />
         <div className="save-button" onClick={this.saveMovie}>
           Save
+        </div>
+        <div className="edit-button" onClick={this.updateMovie}>
+          Edit
+        </div>
+        <div className="delete-button" onClick={this.deleteItem}>
+          Delete
         </div>
       </div>
     );
