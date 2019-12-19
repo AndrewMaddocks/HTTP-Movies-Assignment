@@ -41,6 +41,7 @@ const App = () => {
               {...props}
               addToSavedList={addToSavedList}
               setMovie={setMovie}
+              movie={movie}
             />
           );
         }}

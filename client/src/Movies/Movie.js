@@ -39,10 +39,22 @@ export default class Movie extends React.Component {
     axios
       .delete(`http://localhost:5000/api/movies/${this.state.movie.id}`)
       .then(res => {
-        this.props.setMovie(res.data);
-        this.props.history.push("/movies");
+        // this.props.setMovie(res.data);
+        const filtered = this.props.movie.filter(item => {
+          if (this.state.movie.id !== item.id) {
+            return item;
+          }
+        });
+        this.props.setMovie(filtered);
+        this.props.history.push("/");
+        console.log(res.data);
       })
       .catch(err => console.log(err));
+    // axios.get(`http://localhost:5000/api/movies`).then(res => {
+    //   this.props.setMovie(res.data);
+    //   console.log("GET", res.data);
+    //   this.props.history.push("/");
+    // });
   };
   render() {
     if (!this.state.movie) {
